@@ -93,6 +93,18 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
     Esgotado
   </span>
 )}
+{/* Badge de Esgotado */}
+{(product.id === "1" || product.id === "8") && (
+  <span className="absolute top-3 left-3 bg-[#8B0000] text-white text-[9px] tracking-[0.2em] uppercase font-sans font-semibold px-2 py-0.5 z-10">
+    Esgotado
+  </span>
+)}
+{/* Badge de Esgotado */}
+{(product.id === "1" || product.id === "14") && (
+  <span className="absolute top-3 left-3 bg-[#8B0000] text-white text-[9px] tracking-[0.2em] uppercase font-sans font-semibold px-2 py-0.5 z-10">
+    Esgotado
+  </span>
+)}
         {/* Quick actions on hover */}
         <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
           <div className="bg-background/90 backdrop-blur-sm w-9 h-9 flex items-center justify-center hover:bg-gold hover:text-accent-foreground transition-colors">
