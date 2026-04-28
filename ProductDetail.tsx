@@ -116,7 +116,7 @@ const ProductDetail = () => {
                   <MessageCircle className="w-3.5 h-3.5" />
                   WhatsApp
                 </Button>
-                <PixPayment amount={product.price} productName={product.name} />
+                <PixPayment price={product.price} title={product.name} />
               </div>
 
               <button className="w-full flex items-center justify-center gap-2 py-3 text-[10px] tracking-[0.2em] uppercase text-muted-foreground hover:text-gold transition-colors">
