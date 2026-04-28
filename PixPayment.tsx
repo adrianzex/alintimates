@@ -1,65 +1,79 @@
-import { useState } from "react";
-import { Copy, Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+// @ts-nocheck
+import React, { useState } from 'react';
+import { Copy, Check } from 'lucide-react';
 
-interface PixPaymentProps {
-  amount: number;
-  productName: string;
-}
-
-const PixPayment = ({ amount, productName }: PixPaymentProps) => {
+export const PixPayment = ({ price, title }: any) => {
   const [copied, setCopied] = useState(false);
-  const pixCode = `00020126580014br.gov.bcb.pix0136allintimatesshop@email.com5204000053039865404${amount.toFixed(2)}5802BR5913ALL INTIMATES6009SAO PAULO62140510${Date.now()}6304`;
+  const [qrCode, setQrCode] = useState("");
+  const [pixCode, setPixCode] = useState("");
+
+  const gerarPix = async () => {
+    try {
+      const res = await fetch("/api/pix", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          valor: price,
+          descricao: title
+        })
+      });
+
+      const data = await res.json();
+
+      setQrCode(data.img);
+      setPixCode(data.qr);
+
+    } catch (err) {
+      console.error("Erro ao gerar Pix", err);
+    }
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(pixCode);
     setCopied(true);
-    setTimeout(() => setCopied(false), 3000);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="w-full tracking-wider uppercase text-xs font-sans border-foreground/20 hover:bg-foreground/5 py-5">
-          Pagar com Pix
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md bg-background">
-        <DialogHeader>
-          <DialogTitle className="font-serif text-xl tracking-wider text-center">Pagamento Pix</DialogTitle>
-        </DialogHeader>
-        <div className="space-y-6 py-4 text-center font-sans">
-          <div>
-            <p className="text-sm text-muted-foreground mb-1">{productName}</p>
-            <p className="text-2xl font-semibold text-primary">R$ {amount.toFixed(2)}</p>
-          </div>
+    <div className="w-full border p-4 rounded-lg bg-white shadow-sm">
+      <h3 className="text-lg font-bold mb-2">{title}</h3>
+      <p className="text-gray-600 mb-4">
+        Valor: <span className="font-bold text-black">R$ {price}</span>
+      </p>
 
-          <div className="bg-muted p-8 rounded-sm flex items-center justify-center">
-            <div className="w-40 h-40 bg-foreground/10 rounded-sm flex items-center justify-center">
-              <div className="grid grid-cols-5 gap-1">
-                {Array.from({ length: 25 }).map((_, i) => (
-                  <div key={i} className={`w-5 h-5 ${Math.random() > 0.4 ? "bg-foreground" : "bg-transparent"}`} />
-                ))}
-              </div>
-            </div>
-          </div>
+      <button 
+        onClick={gerarPix}
+        className="w-full bg-black text-white py-2 rounded mb-4"
+      >
+        PAGAR COM PIX
+      </button>
 
-          <div>
-            <p className="text-xs text-muted-foreground mb-2">Ou copie o código Pix:</p>
-            <div className="bg-muted p-3 rounded-sm text-xs break-all text-muted-foreground">
-              {pixCode.substring(0, 60)}...
-            </div>
-          </div>
-
-          <Button onClick={handleCopy} className="w-full gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
-            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-            {copied ? "Código Copiado!" : "Copiar Código Pix"}
-          </Button>
+      {qrCode && (
+        <div className="text-center mb-4">
+          <img 
+            src={`data:image/png;base64,${qrCode}`} 
+            className="mx-auto w-40 h-40"
+          />
         </div>
-      </DialogContent>
-    </Dialog>
+      )}
+
+      {pixCode && (
+        <div className="bg-gray-100 p-3 rounded flex justify-between items-center border">
+          <code className="text-sm break-all">{pixCode}</code>
+          <button 
+            onClick={handleCopy}
+            className="ml-2 p-2 hover:bg-gray-200 rounded-full"
+          >
+            {copied ? <Check size={18} className="text-green-600" /> : <Copy size={18} />}
+          </button>
+        </div>
+      )}
+
+      <p className="text-[10px] text-gray-400 mt-2 text-center uppercase">
+        Escaneie o QR Code ou copie o código Pix
+      </p>
+    </div>
   );
 };
-
-export default PixPayment;
