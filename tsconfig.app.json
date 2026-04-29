@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "allowImportingTsExtensions": true,
-   "baseUrl": ".",
+    "baseUrl": "src",
+    "ignoreDeprecations": "6.0",
     "isolatedModules": true,
     "jsx": "react-jsx",
     "lib": [
@@ -19,13 +20,12 @@
     "noUnusedParameters": false,
     "paths": {
       "@/*": ["./*"],
-      "@/components/*": ["./*"],
-      "@/components/ui/*": ["./*"],
-      "@/context/*": ["./*"],
-      "@/data/*": ["./*"],
-      "@/assets/*": ["./*"],
-      "@/hooks/*": ["./*"],
-      "@/lib/*": ["./*"]
+      "@/components/ui/*": ["./components/ui/*"],
+      "@/context/*": ["./context/*"],
+      "@/data/*": ["./data/*"],
+      "@/assets/*": ["./assets/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/lib/*": ["./lib/*"]
     },
     "skipLibCheck": true,
     "strict": false,

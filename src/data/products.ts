@@ -13,7 +13,7 @@ import product12 from "@/assets/product-12.jpg";
 import product13 from "@/assets/product-13.jpg";
 import product14 from "@/assets/product-14.jpg";
 import product15 from "@/assets/product-15.jpg";
-import product16 from "@/assets/product-16;jpg";
+import product16 from "@/assets/product-16.jpg";
 import product17 from "@/assets/product-17.jpg";
 import product18 from "@/assets/product-18.jpg";
 import product19 from "@/assets/product-19.jpg";

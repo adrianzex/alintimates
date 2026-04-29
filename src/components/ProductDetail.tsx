@@ -4,7 +4,7 @@ import { products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, ShoppingBag, ArrowLeft, Heart, Shield, Truck, RotateCcw } from "lucide-react";
-import PixPayment from "@/components/PixPayment";
+import PixPayment from "./PixPayment";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 
@@ -164,7 +164,7 @@ const ProductDetail = () => {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8 max-w-6xl mx-auto">
             {relatedProducts.map((p, i) => (
-              <ProductCard key={p.id} product={p} index={i} />
+              <ProductCard product={p} index={i} key={p.id} />
             ))}
           </div>
         </div>
